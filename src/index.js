@@ -1,14 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App'; //引入App
-import Layout from "./Layout";
+import Progress from './Progress';
+import App from './App';
+import Baby from './Baby';
 import reportWebVitals from './reportWebVitals';
 
 
 ReactDOM.render(
   <div>
-    <App/>
+        <App/>
+        <div id="talk"></div>
   </div>,
 document.getElementById('root')
 );
