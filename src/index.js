@@ -4,12 +4,13 @@ import './index.css';
 import Progress from './Progress';
 import App from './App';
 import Baby from './Baby';
+import LoginForm from './LoginForm';
 import reportWebVitals from './reportWebVitals';
 
 
 ReactDOM.render(
   <div>
-        <App/>
+        <LoginForm/>
   </div>,
 document.getElementById('root')
 );
