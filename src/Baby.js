@@ -1,41 +1,56 @@
-import React, { Component } from 'react';
-class Baby extends Component{
-    constructor(props) {
-      super(props);
-      this.state={
-          isRightDad: true,
-          isGetData: false,
-          Mom: ""
-      }
-      this.ajaxSimulator=this.ajaxSimulator.bind(this)
+import React, { useState, useEffect } from 'react';
+const Baby=(props)=>{
+    /* 把state變成useState */
+    const [isGetData,setGetData]=useState(false);
+    const [Mom,setMom]=useState("");
+    const [isRightDad,setRightDad]=useState(false);
+
+    /* 把class 的 member function改成function中的function */
+    const ajaxSimulator=()=>{
+        setTimeout(()=>{
+            setGetData(true);
+            setMom("小美");
+        },3000)
     }
-  
-      componentWillMount(){
-          if(this.props.dad!=="Chang")
-              this.setState({isRightDad:false})
-      }
-  
-      ajaxSimulator(){
-          setTimeout(()=>{this.setState({isGetData:true, Mom:"小美"})},3000)
-      }
-  
-      componentDidMount(){
-        document.getElementById("talk").append("爸!")
-      }
-  
-      componentWillUnmount(){
-        document.getElementById("talk").innerHTML="";
+    const checkDad=()=>{
+        if(props.dad==="Chang")
+            setRightDad(true)
+        else
+            setRightDad(false)
     }
-  
-      render(){
-          if(this.state.isGetData===false)
-              return(
-                  <div id="msg">讀取中</div>
-              );
-          else
-              return(
-                  <div id="msg">他的媽媽是{this.state.Mom}</div>
-              );                
-      }
-  }
-  export default Baby;
+
+    useEffect(() =>{
+        ajaxSimulator();
+        document.getElementById("talk").append('爸!')
+        return(()=>{
+            /* 下面是 componentWillUnmount */
+    
+            document.getElementById("talk").innerHTML="";
+            
+            /* 上面是 componentWillUnmount */
+        })
+    },[]);
+
+    useEffect(() => {
+        /* 下面是 componentDidMount和componentDidUpdate */
+        
+        checkDad();
+        
+        /* 上面是 componentDidMount和componentDidUpdate */    
+    }, [props.dad]); /* 加入監控的props.dad */ 
+
+
+    if(isRightDad===false)
+        return(
+            <div>他的媽媽，是誰，干你X事</div>
+        );
+    else if(isGetData===false)
+        return(
+            <div id="msg">讀取中</div>
+        );
+    else
+        return(
+            <div id="msg">他的媽媽是{Mom}</div>
+    );  
+}
+export default Baby;
